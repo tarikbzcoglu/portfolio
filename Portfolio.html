@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarik Bozacioglu - Frontend Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Added background image with a dark overlay for readability */
+            background-image: linear-gradient(rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.85)), url('https://i.ibb.co/ynRjrRf8/pexels-pixabay-302769.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            color: #d1d5db; /* Default light text color for dark theme */
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            color: #f9fafb; /* Light color for headers */
+        }
+        .accent-color { color: #8B5CF6; }
+        .bg-accent { background-color: #8B5CF6; }
+        .btn-primary { @apply inline-flex items-center px-8 py-3 bg-accent text-white font-medium rounded-full transition-all duration-300 hover:bg-violet-600 shadow-lg hover:shadow-xl; }
+        .btn-secondary { @apply inline-flex items-center px-8 py-3 border border-gray-600 text-gray-200 font-medium rounded-full transition-all duration-300 hover:bg-gray-800; }
+        
+        .hero-image-wrapper {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .hero-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .hero-image-wrapper:hover img { transform: scale(1.05); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111827; } /* Dark scrollbar track */
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+        .logo-animation {
+            font-family: 'Inter', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            color: #8B5CF6;
+        }
+        .logo-bracket { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        .logo-less-than { animation-delay: 0.2s; }
+        .logo-greater-than { animation-delay: 0.4s; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+        
+        .header-bg {
+            background-color: rgba(17, 24, 39, 0.8); /* Dark glassmorphism */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* --- Unified Showcase Card Styles --- */
+        .showcase-grid {
+            perspective: 1500px; /* Enable 3D space for children */
+        }
+        .showcase-card {
+            position: relative;
+            background: linear-gradient(135deg, #2a2a3e, #1e1e2d);
+            border-radius: 1.5rem;
+            color: #e0e0e0;
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden; /* Contain pseudo-elements */
+            padding: 2rem; /* Reduced padding from 2.5rem */
+        }
+        .showcase-card:hover {
+            transform: translateY(-12px) scale(1.03); /* Softer lift and scale animation */
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3); /* Softened shadow */
+        }
+        /* Glowing Border Effect */
+        .showcase-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 1.5rem;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #8B5CF6, #4f46e5) border-box;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) padding-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0.5;
+            transition: opacity 0.4s ease;
+        }
+        .showcase-card:hover::before { opacity: 1; }
+        /* Aurora background on hover */
+        .showcase-card::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0) 60%);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1;
+        }
+        .showcase-card:hover::after { transform: translate(-50%, -50%) scale(1); }
+        .showcase-card-content {
+            position: relative;
+            z-index: 2; /* Above the aurora */
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .showcase-card-content .icon {
+            font-size: 2.2rem; /* Reduced from 2.5rem */
+            margin-bottom: 1.2rem; /* Reduced from 1.5rem */
+            color: #8B5CF6;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.9rem; /* Reduced from 1rem */
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .showcase-card-content h3 {
+            color: #fff;
+            font-size: 1.5rem; /* Reduced from 1.75rem */
+            font-weight: 700;
+        }
+        .showcase-card-content p {
+            color: #a0a0b0;
+            margin-bottom: 1.5rem;
+        }
+        .showcase-card-content .links a {
+            color: #c0c0d0;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .showcase-card-content .links a:hover { color: #8B5CF6; }
+        .project-description { flex-grow: 1; }
+
+        /* Specific styles for skills card */
+        .skills-card h3 { font-size: 2rem; color: #fff; margin-bottom: 1.5rem;}
+        .skills-card p { color: #a0a0b0; margin-bottom: 2rem;}
+        .skill-item { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            color: #e0e0e0;
+        }
+        .skill-bar-container { background: rgba(0,0,0,0.2); }
+
+    </style>
+</head>
+<body class="leading-relaxed">
+
+    <!-- Header / Nav --><header class="fixed top-0 left-0 right-0 z-50 header-bg shadow-sm">
+        <nav class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="logo-animation">
+                <span class="logo-bracket logo-less-than">&lt;</span>
+                <span class="font-bold text-gray-100 text-2xl tracking-tighter">TB</span>
+                <span class="logo-bracket logo-greater-than">&gt;</span>
+            </a>
+            <ul class="flex items-center space-x-8 text-gray-300 font-medium">
+                <li><a href="#about" class="inline-block hover:text-accent transition duration-300 hover:-translate-y-1">About</a></li>
+                <li><a href="#projects" class="inline-block hover:text-accent transition duration-300 hover:-translate-y-1">Projects</a></li>
+                <li><a href="#contact" class="inline-block hover:text-accent transition duration-300 hover:-translate-y-1">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 pt-24 pb-16">
+
+        <!-- Hero Section --><section id="hero" class="min-h-[80vh] flex flex-col md:flex-row justify-center items-center gap-12 py-16">
+            <div class="text-center md:text-left fade-in-up">
+                <p class="text-lg text-gray-300 mb-2">Hello There! I'm</p>
+                <h1 class="text-5xl md:text-6xl font-extrabold text-gray-50 leading-tight">Tarik Bozacioglu,</h1>
+                <h2 class="text-3xl md:text-4xl font-semibold accent-color mt-2">Frontend Developer.</h2>
+                <p class="mt-6 max-w-xl text-gray-300 text-lg">
+                    I'm a passionate Frontend Developer specializing in creating dynamic, responsive, and user-friendly web experiences. Currently focused on building engaging applications with React.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#projects" class="btn-primary">View My Portfolio <i class="fas fa-arrow-right ml-2"></i></a>
+                    <a href="#contact" class="btn-secondary">Contact Me</a>
+                </div>
+            </div>
+            <div class="fade-in-up md-ml-12" style="animation-delay: 0.2s;">
+                <div class="hero-image-wrapper">
+                    <img src="https://i.ibb.co/SX5XHtny/file.jpg" alt="Tarik Bozacioglu" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section --><section id="about" class="py-20">
+            <h2 class="text-4xl font-extrabold text-center mb-16 fade-in-up">About Me</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 showcase-grid">
+                <div class="showcase-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="showcase-card-content">
+                        <i class="fas fa-code icon"></i>
+                        <h3 class="mb-4">Frontend Development</h3>
+                        <p>I build responsive and interactive user interfaces using modern JavaScript frameworks like React, ensuring a smooth and engaging user experience.</p>
+                    </div>
+                </div>
+                <div class="showcase-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="showcase-card-content">
+                        <i class="fas fa-brush icon"></i>
+                        <h3 class="mb-4">UI/UX Design Principles</h3>
+                        <p>With a strong eye for design, I focus on creating intuitive and aesthetically pleasing interfaces that are both functional and delightful.</p>
+                    </div>
+                </div>
+                <div class="showcase-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="showcase-card-content">
+                        <i class="fas fa-rocket icon"></i>
+                        <h3 class="mb-4">Performance & Optimization</h3>
+                        <p>I'm committed to writing clean, efficient code that ensures fast loading times and optimal performance for all web applications.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 showcase-card skills-card fade-in-up">
+                <div class="showcase-card-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                        <div>
+                            <h3>My Skills & Expertise</h3>
+                            <p>I'm proficient in a range of frontend technologies and always eager to learn new ones. Here's a glimpse of what I bring to the table:</p>
+                            <div class="space-y-6">
+                                <div class="skill-item">
+                                    <span class="font-semibold">React.js</span>
+                                    <div class="skill-bar-container w-2/3 ml-4">
+                                        <div class="skill-bar" style="width: 90%;"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="font-semibold">JavaScript</span>
+                                    <div class="skill-bar-container w-2/3 ml-4">
+                                        <div class="skill-bar" style="width: 95%;"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="font-semibold">HTML & CSS</span>
+                                    <div class="skill-bar-container w-2/3 ml-4">
+                                        <div class="skill-bar" style="width: 98%;"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="font-semibold">Tailwind CSS</span>
+                                    <div class="skill-bar-container w-2/3 ml-4">
+                                        <div class="skill-bar" style="width: 85%;"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="font-semibold">Git & GitHub</span>
+                                    <div class="skill-bar-container w-2/3 ml-4">
+                                        <div class="skill-bar" style="width: 88%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1pYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Abstract programming code on screen" class="rounded-lg shadow-md object-cover h-full w-full opacity-70">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section --><section id="projects" class="py-20">
+            <h2 class="text-4xl font-extrabold text-center mb-16 fade-in-up">My Latest Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 showcase-grid">
+
+                <!-- Project Cards -->
+                <div class="showcase-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="showcase-card-content">
+                        <i class="fas fa-qrcode icon"></i>
+                        <h3 class="mb-3">QR Menu</h3>
+                        <p class="project-description">A digital QR menu application for restaurants and cafes, built with React to provide a modern dining experience.</p>
+                        <div class="links flex items-center space-x-6">
+                            <a href="https://github.com/tarikbzcoglu" target="_blank" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                            <a href="https://qrmenu-tarkbzc.netlify.app/" target="_blank" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="showcase-card-content">
+                        <i class="fas fa-question-circle icon"></i>
+                        <h3 class="mb-3">Trivia Eternal</h3>
+                        <p class="project-description">An engaging trivia game with an endless stream of questions, powered by an external API and built with React.</p>
+                        <div class="links flex items-center space-x-6">
+                            <a href="https://github.com/tarikbzcoglu" target="_blank" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                            <a href="https://triviaeternal.netlify.app/" target="_blank" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="showcase-card-content">
+                        <i class="fas fa-paint-brush icon"></i>
+                        <h3 class="mb-3">UI/UX Website</h3>
+                        <p class="project-description">A fully responsive, modern landing page with a focus on clean UI/UX design principles.</p>
+                        <div class="links flex items-center space-x-6">
+                            <a href="https://github.com/tarikbzcoglu" target="_blank" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                            <a href="https://gpt3-landingpage-ui-ux.netlify.app/" target="_blank" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="showcase-card-content">
+                        <i class="fas fa-dice icon"></i>
+                        <h3 class="mb-3">Tenzi Game</h3>
+                        <p class="project-description">A fast-paced dice game where the goal is to get all ten dice to show the same number. A fun state management challenge in React.</p>
+                        <div class="links flex items-center space-x-6">
+                            <a href="https://github.com/tarikbzcoglu" target="_blank" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="showcase-card-content">
+                        <i class="fas fa-image icon"></i>
+                        <h3 class="mb-3">Meme Generator</h3>
+                        <p class="project-description">Create your own memes by fetching random images from an API and adding custom top and bottom text.</p>
+                        <div class="links flex items-center space-x-6">
+                            <a href="https://github.com/tarikbzcoglu" target="_blank" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="showcase-card-content">
+                        <i class="fas fa-satellite icon"></i>
+                        <h3 class="mb-3">Where is the ISS?</h3>
+                        <p class="project-description">A real-time tracker for the International Space Station, fetching its coordinates and displaying the location on an interactive map.</p>
+                        <div class="links flex items-center space-x-6">
+                            <a href="https://github.com/tarikbzcoglu" target="_blank" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                            <a href="https://whereisthe-iss.netlify.app/" target="_blank" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Contact Section --><section id="contact" class="py-20 text-center showcase-grid">
+            <h2 class="text-4xl font-extrabold text-center mb-16 fade-in-up">Get In Touch</h2>
+            <div class="max-w-3xl mx-auto showcase-card fade-in-up">
+                <div class="showcase-card-content">
+                    <p class="text-xl mb-8">
+                        I'm currently seeking new opportunities and challenges. If you have a project in mind, a question, or just want to connect, feel free to reach out!
+                    </p>
+                    <a href="mailto:bozacioglutarik@gmail.com" class="btn-primary text-xl mx-auto">
+                        Say Hello <i class="fas fa-paper-plane ml-3"></i>
+                    </a>
+                    <div class="mt-8 flex justify-center space-x-6">
+                        <a href="https://github.com/tarikbzcoglu" target="_blank" class="text-gray-400 hover:text-accent transition duration-300 transform hover:-translate-y-1"><i class="fab fa-github fa-2x"></i></a>
+                        <a href="https://www.linkedin.com/in/tarikbozacioglu" target="_blank" class="text-gray-400 hover:text-accent transition duration-300 transform hover:-translate-y-1"><i class="fab fa-linkedin-in fa-2x"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer --><footer class="py-8 text-center text-gray-400 text-sm bg-gray-900/50 shadow-inner mt-10">
+        <p>
+            &copy; 2023 Tarik Bozacioglu. All rights reserved.
+        </p>
+    </footer>
+
+
+    <script>
+        // Intersection Observer for fade-in-up animation
+        const animatedElements = document.querySelectorAll('.fade-in-up');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
+
